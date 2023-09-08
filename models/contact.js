@@ -2,6 +2,9 @@ const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 const { handleMongooseError } = require("../helpers");
 
+const validEmail = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-z]+)$/;
+const validPhone = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+
 const contactSchema = new Schema(
   {
     name: {
@@ -10,13 +13,22 @@ const contactSchema = new Schema(
     },
     email: {
       type: String,
+      match: validEmail,
+      required: [true, "Set email for contact"],
     },
     phone: {
       type: String,
+      match: validPhone,
+      required: [true, "Set phone for contact"],
     },
     favorite: {
       type: Boolean,
       default: false,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
     },
   },
   { versionKey: false, timestamps: true }

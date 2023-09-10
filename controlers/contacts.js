@@ -56,9 +56,13 @@ const deleteContacts = async (req, res) => {
 const updateContacts = async (req, res) => {
   const { id } = req.params;
   const { _id: owner } = req.user;
-  const result = await Contact.findOneAndUpdate({ _id: id, owner }, req.body, {
-    new: true,
-  });
+  const result = await Contact.findOneAndUpdate(
+    { _id: id, owner },
+    req.body,
+    {
+      new: true,
+    }
+  );
   if (!result) {
     throw HttpError(404);
   }
@@ -72,9 +76,13 @@ const updateStatusContact = async (req, res) => {
     throw HttpError(400, "missing field favorite");
   }
 
-  const result = await Contact.findOneAndUpdate({ _id: id, owner }, req.body, {
-    new: true,
-  });
+  const result = await Contact.findOneAndUpdate(
+    { _id: id, owner },
+    req.body,
+    {
+      new: true,
+    }
+  );
   if (!result) {
     throw HttpError(404);
   }

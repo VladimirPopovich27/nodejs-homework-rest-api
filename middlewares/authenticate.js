@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { User } = require("../models/users");
-const { HttpError } = require("../helpers").default;
+const { HttpError } = require("../helpers");
 const { SECRET_KEY } = process.env;
 
 const authenticate = async (req, res, next) => {
@@ -13,7 +13,7 @@ const authenticate = async (req, res, next) => {
   try {
     const { id } = jwt.verify(token, SECRET_KEY);
     const user = await User.findById(id);
-    if (!user) {
+    if (!user || !user.token || user.token !== token) {
       next(HttpError(401, "User not found"));
     }
     req.user = user;
